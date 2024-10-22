@@ -14,20 +14,22 @@ let options;
 
 function setup () {
   const size = floor(min(windowWidth, windowHeight) * 0.95);
-  createCanvas(size, size)
+  createCanvas(size, size);
   
- options = new Options();
+  /* DAT GUI */
+  options = new Options();
   gui.add(options, 'Length', 0, 1).onFinishChange(() => penis.update());
   gui.add(options, 'BallsSize', 0, 1).onFinishChange(() => penis.update());
   gui.add(options, 'Thickness', 0, 1).onFinishChange(() => penis.update());
   gui.add(options, 'Circumcised').onFinishChange(() => penis.update());
   gui.addColor(options, 'Color').onFinishChange(() => penis.update());
   penis = new Penis();
-    setTimeout(() => {
+
+  // Искусственная задержка перед началом анимации
+  setTimeout(() => {
     document.getElementById('loading-screen').style.display = 'none'; // Скрыть загрузочный экран
     penis.animateIntro(); // Запустить анимацию после "загрузки"
   }, 3000); // Задержка в 3000 мс (3 секунды)
-}
 }
 
 function windowResized () {
@@ -110,7 +112,7 @@ class Penis {
     noStroke();
     // Left ball
     circle((width * 0.49 - (this.ballSize * 0.3)), (width * 0.7), this.ballSize);
-    // Middle ball, what?
+    // Middle ball
     circle((width * 0.5), (width * 0.7), this.ballSize * 0.82);
     // Right ball
     circle((width * 0.51 + (this.ballSize * 0.3)), (width * 0.7), this.ballSize);
