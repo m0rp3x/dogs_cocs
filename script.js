@@ -14,17 +14,20 @@ let options;
 
 function setup () {
   const size = floor(min(windowWidth, windowHeight) * 0.95);
-  createCanvas(size, size);
+  createCanvas(size, size)
   
-  /* DAT GUI */
-  options = new Options();
+ options = new Options();
   gui.add(options, 'Length', 0, 1).onFinishChange(() => penis.update());
   gui.add(options, 'BallsSize', 0, 1).onFinishChange(() => penis.update());
   gui.add(options, 'Thickness', 0, 1).onFinishChange(() => penis.update());
   gui.add(options, 'Circumcised').onFinishChange(() => penis.update());
   gui.addColor(options, 'Color').onFinishChange(() => penis.update());
-  
   penis = new Penis();
+    setTimeout(() => {
+    document.getElementById('loading-screen').style.display = 'none'; // Скрыть загрузочный экран
+    penis.animateIntro(); // Запустить анимацию после "загрузки"
+  }, 3000); // Задержка в 3000 мс (3 секунды)
+}
 }
 
 function windowResized () {
