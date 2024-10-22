@@ -37,6 +37,8 @@ class Penis {
   constructor () {
     this.x = 0;
     this.y = 0;
+    this.scale = 1;
+    this.rotation = 0;
     
     this.circumcised = options.Circumcised;
     this.length = width * ((options.Length * 0.5) + 0.12);
@@ -46,6 +48,27 @@ class Penis {
     this.r = color[0];
     this.g = color[1];
     this.b = color[2];
+
+    // Анимация увеличения и вращения при загрузке
+    this.animateIntro();
+  }
+
+  animateIntro() {
+    gsap.timeline()
+      .to(this, {
+        scale: 3,          // Увеличить в 3 раза
+        rotation: 360,     // Повернуть на 360 градусов
+        duration: 2,       // Продолжительность анимации
+        ease: 'power2.out',
+        onComplete: () => {
+          gsap.to(this, {
+            scale: 1,       // Вернуть к исходному размеру
+            rotation: 0,    // Вернуть к исходной позиции
+            duration: 2,
+            ease: 'elastic.out(1, 0.5)'
+          });
+        }
+      });
   }
   
   update () {
@@ -73,6 +96,12 @@ class Penis {
   }
   
   draw () {
+    clear();
+    translate(width / 2, height / 2); // Переместить к центру
+    rotate(radians(this.rotation));   // Вращение
+    scale(this.scale);                // Масштабирование
+    translate(-width / 2, -height / 2); // Вернуть обратно для рисования
+
     translate(0, width * 0.1);
     fill(this.r, this.g, this.b);
     noStroke();
@@ -90,7 +119,7 @@ class Penis {
       // Urethra
       stroke(255);
       strokeWeight(2);
-      line((width * 0.5), (width * 0.7) - this.length - (width * 0.12), (width * 0.5), (width * 0.7) - this.length - (width * 0.05))
+      line((width * 0.5), (width * 0.7) - this.length - (width * 0.12), (width * 0.5), (width * 0.7) - this.length - (width * 0.05));
     } else {
       // Uncircumcised
       triangle(
